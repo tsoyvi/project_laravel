@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HelloController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,14 +20,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/hello/{name}', function (string $name) {
-    return view('hello', ['name' => $name]);
-});
 
-Route::get('/info', function () {
-    return view('info');
-});
 
-Route::get('/news', function () {
-    return view('news');
-});
+Route::get('/hello', [HelloController::class, 'index']);
+
+Route::get('/category', [CategoryController::class, 'index'])
+    ->name('category.index');
+
+Route::get('/category/{id}', [CategoryController::class, 'show'])
+    ->where('id', '\d+')
+    ->name('category.show');
+
+Route::get('/category/{id}/news/{idNews}', [NewsController::class, 'show'])
+    ->where('id', '\d+')
+    ->where('idNews', '\d+')
+    ->name('news.show');
+
