@@ -48,7 +48,7 @@ class Controller extends BaseController
             return [
                 'id' => $id,
                 'title' => $faker->text(15),
-                'description' => $faker->text(20),
+                'description' => $faker->text(60),
                 'author' => $faker->userName(),
                 'created_at' => now(),
                 'news' => $this->getNews(),
@@ -60,7 +60,7 @@ class Controller extends BaseController
             $data[] = [
                 'id' => $i,
                 'title' => $faker->text(15),
-                'description' => $faker->text(20),
+                'description' => $faker->text(100),
                 'author' => $faker->userName(),
                 'created_at' => now(),
             ];
