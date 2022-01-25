@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\Forms\FeedbackController;
+use App\Http\Controllers\Forms\OrderController;
 
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
@@ -46,3 +48,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
     Route::resource('/category', AdminCategoryController::class);
     Route::resource('/news', AdminNewsController::class);
 });
+
+
+Route::group(['as' => 'forms.', 'prefix' => 'forms'], function () {
+    Route::resource('/feedback', FeedbackController::class);
+    Route::resource('/order', OrderController::class);
+});
+
