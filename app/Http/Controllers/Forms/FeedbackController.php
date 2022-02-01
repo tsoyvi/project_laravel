@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Forms;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Feedback;
 
-class CategoryController extends Controller
+use Illuminate\Support\Facades\Storage;
+
+class FeedbackController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +17,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categoryList = $this->getCategoryNews();
-        return view('admin.categories.index');
+        // $contents = Storage::get('feedback.txt');
+        $feedbacks = Feedback::all();
+        return view('forms.feedback.index',  ["feedbacks" => $feedbacks]);
     }
 
     /**
@@ -25,7 +29,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.categories.create');
+        //
     }
 
     /**
@@ -36,11 +40,14 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => ['required', 'string', 'min:5']
-        ]);
+        //Storage::put('feedback.txt', json_encode($request->all() ));
 
-        dd($request->only('title', 'status'));
+        $feedback = new Feedback();
+        $feedback->name = $request->input('name');
+        $feedback->comment = $request->input('comment');
+        $feedback->save();
+
+        return redirect()->route('forms.feedback.index')->with('success', 'Сообщение было добавлено!');;
     }
 
     /**
