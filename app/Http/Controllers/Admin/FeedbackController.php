@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\News;
+use App\Models\Feedback;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class FeedbackController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +15,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = Category::paginate(10);
+        $feedbacks = Feedback::paginate(10);
 
-        return view('admin.categories.index', [
-            'categoriesList' => $category
+        return view('admin.feedback.index', [
+            'feedbacks' => $feedbacks
         ]);
     }
 
@@ -30,7 +29,10 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.categories.create');
+        $feedbacks = Feedback::all();
+        return view('admin.feedback.create', [
+            'feedbacks' => $feedbacks,
+        ]);
     }
 
     /**
@@ -41,11 +43,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => ['required', 'string', 'min:5']
-        ]);
+        $data = $request->only(['name', 'comment']);
 
-        dd($request->only('title', 'status'));
+        $created = Feedback::create($data);
+
+        if ($created) {
+            return redirect()->route('admin.feedback.index')
+                ->with('success', 'Запись успешно добавлена');
+        } else {
+            return back()->with('error', 'Не удалось добавить запись')->withInput();
+        }
     }
 
     /**
@@ -65,15 +72,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(Feedback $feedback)
     {
-        // dd($category->newsInCategory);
-        
-        $categoriesNews = $category->newsInCategory;
-        
-        return view('admin.categories.edit', [
-            'category' => $category,
-            'categoryNews' => $categoriesNews,
+        return view('admin.feedback.edit', [
+            'feedback' => $feedback,
         ]);
     }
 
@@ -84,14 +86,14 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Feedback $feedback)
     {
-        $data = $request->only(['title', 'description']);
-
-        $updated = $category->fill($data)->save();
+        $data = $request->only(['name', 'comment']);
+        
+        $updated = $feedback->fill($data)->save();
 
         if ($updated) {
-            return redirect()->route('admin.categories.index')
+            return redirect()->route('admin.feedback.index')
                 ->with('success', 'Запись успешно обновлена');
         } else {
             return back()->with('error', 'Не удалось обновить запись')->withInput();

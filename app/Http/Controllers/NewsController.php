@@ -2,17 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\News;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
     public function show(int $id, int $idNews)
     {
-        $newsList = $this->getNews($idNews);
 
+        $news = News::getNewsById($idNews);
+        //$news = News::query()->select(News::$availableFields)->get();
+        
+        //dd($news);
+        return view('news.show_news',  [
+            'news' => $news,
+            'categoryId' => $id,
+        ]);
+
+
+        /*
+        $newsList = $this->getNews($idNews);
         return view('news.show_news', [
             'news' => $newsList,
             'idCategory' => $id,
         ]);
+        */
     }
 }

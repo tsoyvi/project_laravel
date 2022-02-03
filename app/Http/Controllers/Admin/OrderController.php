@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\News;
+use App\Models\Order;
 use Illuminate\Http\Request;
+use Ramsey\Uuid\Codec\OrderedTimeCodec;
 
-class CategoryController extends Controller
+class Ordercontroller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +16,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = Category::paginate(10);
+        $orders = Order::paginate(10);
 
-        return view('admin.categories.index', [
-            'categoriesList' => $category
+        return view('admin.order.index', [
+            'orders' => $orders
         ]);
     }
 
@@ -30,7 +30,10 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.categories.create');
+        $order = Order::all();
+        return view('admin.order.create', [
+            'order' => $order,
+        ]);
     }
 
     /**
@@ -41,11 +44,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => ['required', 'string', 'min:5']
-        ]);
+        $data = $request->only(['name', 'phone', 'email', 'comment',]);
 
-        dd($request->only('title', 'status'));
+        $created = Order::create($data);
+
+        if ($created) {
+            return redirect()->route('admin.order.index')
+                ->with('success', 'Запись успешно добавлена');
+        } else {
+            return back()->with('error', 'Не удалось добавить запись')->withInput();
+        }
     }
 
     /**
@@ -65,15 +73,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(Order $order)
     {
-        // dd($category->newsInCategory);
-        
-        $categoriesNews = $category->newsInCategory;
-        
-        return view('admin.categories.edit', [
-            'category' => $category,
-            'categoryNews' => $categoriesNews,
+        return view('admin.order.edit', [
+            'order' => $order,
         ]);
     }
 
@@ -84,14 +87,14 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Order $order)
     {
-        $data = $request->only(['title', 'description']);
-
-        $updated = $category->fill($data)->save();
+        $data = $request->only(['name', 'comment']);
+        
+        $updated = $order->fill($data)->save();
 
         if ($updated) {
-            return redirect()->route('admin.categories.index')
+            return redirect()->route('admin.order.index')
                 ->with('success', 'Запись успешно обновлена');
         } else {
             return back()->with('error', 'Не удалось обновить запись')->withInput();
