@@ -27,12 +27,8 @@ class News extends Model
         'description',
     ];
 
-    /*
-    public static function getNewsById($id)
+    public function category()
     {
-        $news = DB::table('news')->find($id, ['*']);
-
-        return $news;
+        return $this->hasOne(Category::class, 'id', 'category_id');
     }
-    */
 }

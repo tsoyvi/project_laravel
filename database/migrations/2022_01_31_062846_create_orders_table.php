@@ -19,7 +19,7 @@ class CreateOrdersTable extends Migration
             $table->string('phone', 20);
             $table->string('email', 50);
             $table->text('comment');
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamps();
         });
     }
 

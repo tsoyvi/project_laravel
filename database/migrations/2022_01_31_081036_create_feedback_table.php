@@ -17,7 +17,7 @@ class CreateFeedbackTable extends Migration
             $table->id();
             $table->string('name', 255);
             $table->text('comment')->nullable();
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamps();
         });
     }
 

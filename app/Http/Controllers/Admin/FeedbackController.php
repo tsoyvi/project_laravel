@@ -16,11 +16,10 @@ class FeedbackController extends Controller
     public function index()
     {
         $feedbacks = Feedback::paginate(10);
-        
+
         return view('admin.feedback.index', [
             'feedbacks' => $feedbacks
         ]);
-
     }
 
     /**
@@ -30,7 +29,10 @@ class FeedbackController extends Controller
      */
     public function create()
     {
-        //
+        $feedbacks = Feedback::all();
+        return view('admin.feedback.create', [
+            'feedbacks' => $feedbacks,
+        ]);
     }
 
     /**
@@ -41,7 +43,16 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->only(['name', 'comment']);
+
+        $created = Feedback::create($data);
+
+        if ($created) {
+            return redirect()->route('admin.feedback.index')
+                ->with('success', 'Запись успешно добавлена');
+        } else {
+            return back()->with('error', 'Не удалось добавить запись')->withInput();
+        }
     }
 
     /**
@@ -61,9 +72,11 @@ class FeedbackController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Feedback $feedback)
     {
-        //
+        return view('admin.feedback.edit', [
+            'feedback' => $feedback,
+        ]);
     }
 
     /**
@@ -73,9 +86,18 @@ class FeedbackController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Feedback $feedback)
     {
-        //
+        $data = $request->only(['name', 'comment']);
+        
+        $updated = $feedback->fill($data)->save();
+
+        if ($updated) {
+            return redirect()->route('admin.feedback.index')
+                ->with('success', 'Запись успешно обновлена');
+        } else {
+            return back()->with('error', 'Не удалось обновить запись')->withInput();
+        }
     }
 
     /**

@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Feedback extends Model
 {
     use HasFactory;
-    public static $availableFields = [
-        'id',
+    protected $fillable = [
         'name',
         'comment',
-        'created_at'
     ];
+
+
 }

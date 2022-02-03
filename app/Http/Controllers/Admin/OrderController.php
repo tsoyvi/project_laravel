@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Ramsey\Uuid\Codec\OrderedTimeCodec;
 
 class Ordercontroller extends Controller
 {
@@ -15,10 +16,10 @@ class Ordercontroller extends Controller
      */
     public function index()
     {
-        $oreders = Order::paginate(10);
+        $orders = Order::paginate(10);
 
         return view('admin.order.index', [
-            'oreders' => $oreders
+            'orders' => $orders
         ]);
     }
 
@@ -29,7 +30,10 @@ class Ordercontroller extends Controller
      */
     public function create()
     {
-        //
+        $order = Order::all();
+        return view('admin.order.create', [
+            'order' => $order,
+        ]);
     }
 
     /**
@@ -40,7 +44,16 @@ class Ordercontroller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->only(['name', 'phone', 'email', 'comment',]);
+
+        $created = Order::create($data);
+
+        if ($created) {
+            return redirect()->route('admin.order.index')
+                ->with('success', 'Запись успешно добавлена');
+        } else {
+            return back()->with('error', 'Не удалось добавить запись')->withInput();
+        }
     }
 
     /**
@@ -60,9 +73,11 @@ class Ordercontroller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Order $order)
     {
-        //
+        return view('admin.order.edit', [
+            'order' => $order,
+        ]);
     }
 
     /**
@@ -72,9 +87,18 @@ class Ordercontroller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Order $order)
     {
-        //
+        $data = $request->only(['name', 'comment']);
+        
+        $updated = $order->fill($data)->save();
+
+        if ($updated) {
+            return redirect()->route('admin.order.index')
+                ->with('success', 'Запись успешно обновлена');
+        } else {
+            return back()->with('error', 'Не удалось обновить запись')->withInput();
+        }
     }
 
     /**

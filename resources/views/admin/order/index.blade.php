@@ -4,7 +4,7 @@
 <h1 class="h2">Список заказов</h1>
 <div class="btn-toolbar mb-2 mb-md-0">
     <div class="btn-group mr-2">
-        <a href="{{route('admin.categories.create')}}" class="btn btn-sm btn-outline-secondary">
+        <a href="{{route('admin.order.create')}}" class="btn btn-sm btn-outline-secondary">
             Добавить заказ
         </a>
     </div>
@@ -13,18 +13,28 @@
 
 @section('content')
 <div class="table-responsive">
-    
-    @forelse ($oreders as $oreder)
+
+    @forelse ($orders as $order)
     <div class="card mb-4">
         <div class="card-body">
 
-            <p>{{ $oreder['comment'] }} </p>
+            <p>{{ $order['comment'] }} </p>
             <div class="d-flex justify-content-between">
                 <div class="d-flex flex-row align-items-center">
-                    <p class="small mb-0 ms-2">{{ $oreder['name'] }}</p>
+                    <p class="small mb-0 ms-2">{{ $order['name'] }}</p>
                 </div>
                 <div class="d-flex flex-row align-items-center">
-                    <p class="small text-muted mb-0">{{ date_format($oreder['created_at'], 'd-M-Y H:i:s')}}</p>
+                    <p class="small text-muted mb-0">phone: {{ $order['phone'] }}</p>
+                </div>
+                <div class="d-flex flex-row align-items-center">
+                    <p class="small text-muted mb-0">email: {{ $order['email'] }}</p>
+                </div>
+                <div class="d-flex flex-row align-items-center">
+                    <p class="small text-muted mb-0">{{ date_format($order['created_at'], 'd-M-Y H:i:s')}}</p>
+                </div>
+                <div class="d-flex flex-row align-items-center">
+                    <a href="{{ route ('admin.order.edit', ['order' => $order]) }}">Ред.</a>&nbsp;
+                    <a href="">Удал.</a>
                 </div>
             </div>
         </div>
@@ -37,7 +47,6 @@
     @endforelse
 
 
-    {{ $oreders->links()}}
+    {{ $orders->links()}}
 </div>
 @endsection
-

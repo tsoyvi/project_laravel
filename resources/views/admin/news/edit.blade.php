@@ -17,9 +17,11 @@
     @method('put')
     <div class="form-group">
         <label for="categories">Выбрать категории</label>
-        <select class="form-control" name="categories[]" id="categories" multiple>
+        <select class="form-control" name="categories[]" id="categories">
             @foreach ($categories as $category)
-            <option value="{{ $category->id }}">{{ $category->title }}</option>
+            <option value="{{ $category->id }}" @if($category->id === $categoryNews->id) selected @endif>
+                {{ $category->title }}
+            </option>
 
             @endforeach
         </select>

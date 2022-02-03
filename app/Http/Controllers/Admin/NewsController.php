@@ -19,10 +19,8 @@ class NewsController extends Controller
     public function index()
     {
         $news = News::paginate(10);
-
         return view('admin.news.index', [
             'newsList' => $news,
-
         ]);
     }
 
@@ -37,9 +35,6 @@ class NewsController extends Controller
         return view('admin.news.create', [
             'categories' => $categories,
         ]);
-
-
-        return 'Добавление новости';
     }
 
     /**
@@ -55,11 +50,7 @@ class NewsController extends Controller
             'slug' => Str::slug($request->input('title'))
         ];
 
-        //dd($data);
-
         $created = News::create($data);
-
-        // !!!!!!!!!!!! Допилить Id категории!!!!!!!!!!!!!!!!!
 
         if ($created) {
             return redirect()->route('admin.news.index')
@@ -88,9 +79,12 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
+        $categoryNews = $news->category;
+
         $categories = Category::all();
         return view('admin.news.edit', [
             'news' => $news,
+            'categoryNews' => $categoryNews,
             'categories' => $categories,
         ]);
     }
@@ -104,11 +98,11 @@ class NewsController extends Controller
      */
     public function update(Request $request, News $news)
     {
-        
+
         $data = $request->only(['title', 'author', 'status', 'description']) + [
             'slug' => Str::slug($request->input('title'))
         ];
-        
+
         $updated = $news->fill($data)->save();
 
         if ($updated) {
