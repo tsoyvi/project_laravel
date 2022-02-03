@@ -9,19 +9,22 @@ use Illuminate\Support\Facades\DB;
 class Category extends Model
 {
     use HasFactory;
+    protected $table = 'categories';
+    public static $availableFields = [
+        'id',
+        'title',
+        'description',
+        'created_at'
+    ];
 
-    public function getCategories()
+    protected $fillable = [
+        'title',
+        'description',
+    ];
+   
+    public function newsInCategory()
     {
+        return $this->hasMany(News::class);
     }
-
-    public static function getCategoriesById($id)
-    {
-        $news = DB::table('categories')
-            ->leftJoin('news', 'categories.id', '=', 'news.category_id')
-            ->select('news.*', 'categories.title as category_title')
-            ->where('categories.id', '=', $id)
-            ->get();
-
-        return $news;
-    }
+    
 }

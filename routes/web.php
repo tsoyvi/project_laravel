@@ -8,6 +8,9 @@ use App\Http\Controllers\Forms\OrderController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 
+use App\Http\Controllers\Admin\FeedbackController as AdminFeedbackController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HelloController;
 use PHPUnit\TextUI\XmlConfiguration\Group;
@@ -31,9 +34,11 @@ Route::get('/', [HelloController::class, 'index'])
 Route::get('/category', [CategoryController::class, 'index'])
     ->name('category.index');
 
-Route::get('/category/{id}', [CategoryController::class, 'show'])
-    ->where('id', '\d+')
+
+Route::get('/category/{category}', [CategoryController::class, 'show'])
+    ->where('category', '\d+')
     ->name('category.show');
+
 
 Route::get('/category/{id}/news/{idNews}', [NewsController::class, 'show'])
     ->where('id', '\d+')
@@ -45,8 +50,10 @@ Route::get('/category/{id}/news/{idNews}', [NewsController::class, 'show'])
 Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
     Route::view('/', 'admin.index')
         ->name('index');
-    Route::resource('/category', AdminCategoryController::class);
+    Route::resource('/categories', AdminCategoryController::class);
     Route::resource('/news', AdminNewsController::class);
+    Route::resource('/feedback', AdminFeedbackController::class);
+    Route::resource('/order', AdminOrderController::class);
 });
 
 
@@ -54,4 +61,3 @@ Route::group(['as' => 'forms.', 'prefix' => 'forms'], function () {
     Route::resource('/feedback', FeedbackController::class);
     Route::resource('/order', OrderController::class);
 });
-

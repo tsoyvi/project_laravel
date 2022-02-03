@@ -15,7 +15,7 @@
     @endforeach
 @endif
 
-<form action="{{route('admin.category.store')}}" method="post">
+<form action="{{route('admin.categories.store')}}" method="post">
     @csrf
     <div class="form-group">
         <label for="title">Наименование</label>

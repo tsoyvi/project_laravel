@@ -11,7 +11,8 @@ class NewsController extends Controller
     {
 
         $news = News::getNewsById($idNews);
-
+        //$news = News::query()->select(News::$availableFields)->get();
+        
         //dd($news);
         return view('news.show_news',  [
             'news' => $news,
