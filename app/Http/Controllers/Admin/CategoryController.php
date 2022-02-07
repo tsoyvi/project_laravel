@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Categories\CreateRequest;
+use App\Http\Requests\Categories\UpdateRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\News;
-use Illuminate\Http\Request;
+use Exception;
 
 class CategoryController extends Controller
 {
@@ -39,13 +40,17 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $request->validate([
-            'title' => ['required', 'string', 'min:5']
-        ]);
+        $data = $request->validated();
+        $created = Category::create($data);
 
-        dd($request->only('title', 'status'));
+        if ($created) {
+            return redirect()->route('admin.categories.index')
+                ->with('success', __('messages.admin.categories.created.success'));
+        } else {
+            return back()->with('error', __('messages.admin.categories.created.error'))->withInput();
+        }
     }
 
     /**
@@ -67,10 +72,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        // dd($category->newsInCategory);
-        
+
         $categoriesNews = $category->newsInCategory;
-        
+
         return view('admin.categories.edit', [
             'category' => $category,
             'categoryNews' => $categoriesNews,
@@ -84,28 +88,31 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateRequest $request, Category $category)
     {
-        $data = $request->only(['title', 'description']);
-
+        $data = $request->validated();
         $updated = $category->fill($data)->save();
-
         if ($updated) {
             return redirect()->route('admin.categories.index')
-                ->with('success', 'Запись успешно обновлена');
+                ->with('success', __('messages.admin.categories.updated.success'));
         } else {
-            return back()->with('error', 'Не удалось обновить запись')->withInput();
+            return back()->with('error', __('messages.admin.categories.updated.error'))->withInput();
         }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        try {
+            $category->delete();
+            return response()->json('ok');
+        } catch (Exception $e) {
+            return response()->json('error', 400);
+        }
     }
 }

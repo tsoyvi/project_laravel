@@ -57,7 +57,7 @@ class UserTest extends TestCase
 
     public function test_adminCategory()
     {
-        $response = $this->get('/admin/category');
+        $response = $this->get('/admin/categories');
 
         $response->assertStatus(200);
     }
@@ -92,18 +92,18 @@ class UserTest extends TestCase
             "comment" => "comment",
         ];
         $response = $this->post(route('forms.order.store'), $data);
-        $response->assertStatus(200);
+        $response->assertStatus(302);
     }
 
     public function test_formsFeedbackStore()
     {
 
         $data = [
-            "name" => "name",
-            "comment" => "comment",
+            "name" => "name124354",
+            "comment" => "comment12343",
         ];
         $response = $this->post(route('forms.feedback.store'), $data);
-        $response->assertStatus(200);
+        $response->assertStatus(302);
     }
 
 }

@@ -17,7 +17,7 @@
 
     <div class="form-group">
         <label for="categories">Выбрать категории</label>
-        <select class="form-control" name="categories[]" id="categories" multiple>
+        <select class="form-control" name="category_id" id="categories" multiple>
             @foreach ($categories as $category)
             <option value="{{ $category->id }}">{{ $category->title }}</option>
 
@@ -28,11 +28,12 @@
     <div class="form-group">
         <label for="title">Наименование</label>
         <input type="text" class="form-control" name="title" id="title" value="{{@old('title')}}">
+        @error('title') <strong style="color:red;"> {{$message}} </strong> @enderror
     </div>
     <div class="form-group">
         <label for="author">Автор </label>
         <input type="text" class="form-control" name="author" id="author" value="{{@old('author')}}">
-
+        @error('author') <strong style="color:red;"> {{$message}} </strong> @enderror
     </div>
     <div class="form-group">
         <label for="status">Статус</label>

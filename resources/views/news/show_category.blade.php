@@ -1,20 +1,20 @@
 @extends('layouts.main')
 
 @section('title')
-@parent - Список новостей в категории {{ $category[0]->category_title }}
+@parent - Список новостей в категории {{ $category->title }}
 @endsection
 
 @section('header')
 <div class="container">
     <h1>Список новостей</h1>
-    <h2>Категория - {{ $category[0]->category_title }}</h2>
+    <h2>Категория - {{ $category->title }}</h2>
 </div>
 @endsection
 
 @section('content')
 <div class="container">
     <div class="row">
-        @forelse ($category as $news)
+        @forelse ($categoriesNews as $news)
 
         <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
@@ -24,7 +24,7 @@
                 <div class="card-body">
                     <strong>
 
-                        <a href="{{ route('news.show', [ 'id' => $categoryId, 'idNews' => $news->id  ]) }}">
+                        <a href="{{ route('news.show', [ 'category' => $category->id, 'news' => $news->id  ]) }}">
                             {{ $news->title }}
                         </a>
                     </strong>
@@ -34,7 +34,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
                             <a class="btn btn-sm btn-outline-secondary"
-                                href="{{ route('news.show', [ 'id' => $categoryId, 'idNews' => $news->id  ]) }}">
+                                href="{{ route('news.show', [ 'category' => $category->id, 'news' => $news->id  ]) }}">
                                 далее ...
                             </a>
                             <!--<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>-->

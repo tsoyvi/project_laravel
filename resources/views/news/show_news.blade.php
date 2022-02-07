@@ -27,7 +27,8 @@
         </p>
     </div>
     <hr>
-    <a class="btn btn-sm btn-outline-secondary" href="{{route('category.show', ['id' => $categoryId ])}}">Список
+
+    <a class="btn btn-sm btn-outline-secondary" href="{{route('category.show', ['category' => $category->id ])}}">Список
         новостей в категории</a>
     <a class="btn btn-sm btn-outline-secondary" href="{{route('category.index')}}">Список категорий</a>
     <a class="btn btn-sm btn-outline-secondary" href="{{route('/')}}">На главную</a>

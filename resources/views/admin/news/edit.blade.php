@@ -12,12 +12,12 @@
 
 @include('includes.messages')
 
-<form action="{{route('admin.news.update',  ['news' => $news] ) }}" method="post">
+<form action="{{ route('admin.news.update',  ['news' => $news] ) }}" method="post">
     @csrf
     @method('put')
     <div class="form-group">
         <label for="categories">Выбрать категории</label>
-        <select class="form-control" name="categories[]" id="categories">
+        <select class="form-control" name="category_id" id="categories">
             @foreach ($categories as $category)
             <option value="{{ $category->id }}" @if($category->id === $categoryNews->id) selected @endif>
                 {{ $category->title }}
@@ -30,11 +30,12 @@
     <div class="form-group">
         <label for="title">Наименование</label>
         <input type="text" class="form-control" name="title" id="title" value="{{$news->title}}">
+        @error('title') <strong style="color:red;"> {{$message}} </strong> @enderror
     </div>
     <div class="form-group">
         <label for="author">Автор </label>
         <input type="text" class="form-control" name="author" id="author" value="{{$news->author}}">
-
+        @error('author') <strong style="color:red;"> {{$message}} </strong> @enderror
     </div>
     <div class="form-group">
         <label for="status">Статус</label>
@@ -48,7 +49,7 @@
     <div class="form-group">
         <label>Описание</label>
         <textarea name="description" class="form-control">{{$news->description}}</textarea>
-
+        @error('description') <strong style="color:red;" {{$message}}</strong> @enderror
     </div>
     <button type="submit" class="btn btn-success">Сохранить</button>
 </form>

@@ -14,6 +14,8 @@
 @section('content')
 <div class="table-responsive">
 
+    @include('includes.messages')
+
     @forelse ($feedbacks as $feedback)
     <div class="card mb-4">
         <div class="card-body">
@@ -28,7 +30,7 @@
                 </div>
                 <div class="d-flex flex-row align-items-center">
                     <a href="{{ route ('admin.feedback.edit', ['feedback' => $feedback])}}">Ред.</a>&nbsp;
-                    <a href="">Удал.</a>
+                    <a href="javascript:;" class="delete" rel="{{ $feedback->id }}" url="/admin/feedback/">Удал.</a>
                 </div>
             </div>
         </div>

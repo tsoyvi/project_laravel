@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Forms\Feedbacks\CreateRequest;
+use App\Http\Requests\Forms\Feedbacks\UpdateRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Feedback;
+use Exception;
 use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
@@ -41,17 +44,17 @@ class FeedbackController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $data = $request->only(['name', 'comment']);
-
+        $data = $request->validated();
         $created = Feedback::create($data);
+
 
         if ($created) {
             return redirect()->route('admin.feedback.index')
-                ->with('success', 'Запись успешно добавлена');
+                ->with('success', __('messages.feedbacks.created.success'));
         } else {
-            return back()->with('error', 'Не удалось добавить запись')->withInput();
+            return back()->with('error', __('messages.feedbacks.created.error'))->withInput();
         }
     }
 
@@ -86,28 +89,31 @@ class FeedbackController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Feedback $feedback)
+    public function update(UpdateRequest $request, Feedback $feedback)
     {
-        $data = $request->only(['name', 'comment']);
-        
+        $data = $request->validated();
         $updated = $feedback->fill($data)->save();
-
         if ($updated) {
             return redirect()->route('admin.feedback.index')
-                ->with('success', 'Запись успешно обновлена');
+                ->with('success', __('messages.feedbacks.updated.success'));
         } else {
-            return back()->with('error', 'Не удалось обновить запись')->withInput();
+            return back()->with('error', __('messages.feedbacks.updated.error'))->withInput();
         }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Feedback $feedback
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Feedback $feedback)
     {
-        //
+        try {
+            $feedback->delete();
+            return response()->json('ok');
+        } catch (Exception $e) {
+            return response()->json('error', 400);
+        }
     }
 }

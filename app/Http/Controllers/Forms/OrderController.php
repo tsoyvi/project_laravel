@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Forms;
 
+use App\Http\Requests\Forms\Orders\CreateRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -21,17 +22,17 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        // Storage::put('order.txt', json_encode($request->all())); 
+        $data = $request->validated();
+        $created = Order::create($data);
 
-        $order = new Order();
-        $order->name = $request->input('name');
-        $order->phone = $request->input('phone');
-        $order->email = $request->input('email');
-        $order->comment = $request->input('comment');
-        $order->save();
+        if ($created) {
+            return redirect()->route('forms.order.index')
+                ->with('success', __('messages.orders.created.success'));
+        } else {
+            return back()->with('error', __('messages.orders.created.error'))->withInput();
+        }
 
-        return redirect()->route('forms.order.index')->with('success', 'Сообщение было добавлено!');
     }
 }

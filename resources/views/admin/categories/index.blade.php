@@ -13,7 +13,8 @@
 
 @section('content')
 <div class="table-responsive">
-    Список категорий
+    
+    @include('includes.messages')
 
     <table class="table table-bordered">
         <thead>
@@ -52,7 +53,7 @@
                 </td>
                 <td>
                     <a href="{{ route ('admin.categories.edit', ['category' => $categories])}}">Ред.</a>
-                    <a href="">Удал.</a>
+                    <a href="javascript:;" class="delete" rel="{{ $categories->id }}" url="/admin/categories/">Удал.</a>
                 </td>
             </tr>
             @endforeach

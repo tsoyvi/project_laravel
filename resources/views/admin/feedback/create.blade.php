@@ -22,14 +22,15 @@
     <div class="form-group">
         <label for="name">Имя</label>
         <input type="text" class="form-control" name="name" id="name" value="{{@old('name')}}">
-
-        <div class="form-group">
-            <label>Комментарий</label>
-            <textarea name="comment" class="form-control">{{@old('comment')}}</textarea>
-
-        </div>
-
-        <button type="submit" class="btn btn-success">Сохранить</button>
+        @error('name') <strong style="color:red;"> {{$message}} </strong> @enderror
     </div>
+    <div class="form-group">
+        <label>Комментарий</label>
+        <textarea name="comment" class="form-control">{{@old('comment')}}</textarea>
+        @error('comment') <strong style="color:red;"> {{$message}} </strong> @enderror
+    </div>
+
+    <button type="submit" class="btn btn-success">Сохранить</button>
+
 </form>
 @endsection

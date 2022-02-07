@@ -13,6 +13,8 @@
 
 @section('content')
 <div class="table-responsive">
+    
+    @include('includes.messages')
 
     @forelse ($orders as $order)
     <div class="card mb-4">
@@ -34,7 +36,7 @@
                 </div>
                 <div class="d-flex flex-row align-items-center">
                     <a href="{{ route ('admin.order.edit', ['order' => $order]) }}">Ред.</a>&nbsp;
-                    <a href="">Удал.</a>
+                    <a href="javascript:;" class="delete" rel="{{ $order->id }}" url="/admin/orders/">Удал.</a>
                 </div>
             </div>
         </div>

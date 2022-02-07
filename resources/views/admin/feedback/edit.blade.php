@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('header')
-<h1 class="h2">Редактировать категорию</h1>
+<h1 class="h2">Редактировать Отзыв</h1>
 <div class="btn-toolbar mb-2 mb-md-0">
     <div class="btn-group mr-2">
     </div>
@@ -19,15 +19,16 @@
     <div class="form-group">
         <label for="name">Имя</label>
         <input type="text" class="form-control" name="name" id="name" value="{{ $feedback ->name }}">
-
-        <div class="form-group">
-            <label>Комментарий</label>
-            <textarea name="comment" class="form-control">{{ $feedback->comment }}</textarea>
-
-        </div>
-
-        <button type="submit" class="btn btn-success">Сохранить</button>
+        @error('name') <strong style="color:red;"> {{$message}} </strong> @enderror
     </div>
+    <div class="form-group">
+        <label>Комментарий</label>
+        <textarea name="comment" class="form-control">{{ $feedback->comment }}</textarea>
+        @error('comment') <strong style="color:red;"> {{$message}} </strong> @enderror
+    </div>
+
+    <button type="submit" class="btn btn-success">Сохранить</button>
+
 </form>
 
 </div>

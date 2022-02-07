@@ -40,9 +40,9 @@ Route::get('/category/{category}', [CategoryController::class, 'show'])
     ->name('category.show');
 
 
-Route::get('/category/{id}/news/{idNews}', [NewsController::class, 'show'])
-    ->where('id', '\d+')
-    ->where('idNews', '\d+')
+Route::get('/category/{category}/news/{news}', [NewsController::class, 'show'])
+    ->where('category', '\d+')
+    ->where('news', '\d+')
     ->name('news.show');
 
 

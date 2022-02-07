@@ -12,6 +12,7 @@ class News extends Model
     protected $table = 'news';
     public static $availableFields = [
         'id',
+        'category_id',
         'title',
         'author',
         'status',
@@ -21,6 +22,7 @@ class News extends Model
 
     protected $fillable = [
         'title',
+        'category_id',
         'slug',
         'author',
         'status',

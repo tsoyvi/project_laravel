@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Forms\Orders\CreateRequest;
+use App\Http\Requests\Forms\Orders\UpdateRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use Exception;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Codec\OrderedTimeCodec;
 
@@ -42,17 +45,16 @@ class Ordercontroller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $data = $request->only(['name', 'phone', 'email', 'comment',]);
-
+        $data = $request->validated();
         $created = Order::create($data);
 
         if ($created) {
             return redirect()->route('admin.order.index')
-                ->with('success', 'Запись успешно добавлена');
+                ->with('success', __('messages.orders.created.success'));
         } else {
-            return back()->with('error', 'Не удалось добавить запись')->withInput();
+            return back()->with('error', __('messages.orders.created.error'))->withInput();
         }
     }
 
@@ -87,28 +89,33 @@ class Ordercontroller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
+    public function update(UpdateRequest $request, Order $order)
     {
-        $data = $request->only(['name', 'comment']);
-        
+        $data = $request->validated();
+
         $updated = $order->fill($data)->save();
 
         if ($updated) {
             return redirect()->route('admin.order.index')
-                ->with('success', 'Запись успешно обновлена');
+                ->with('success', __('messages.orders.updated.success'));
         } else {
-            return back()->with('error', 'Не удалось обновить запись')->withInput();
+            return back()->with('error', __('messages.orders.updated.error'))->withInput();
         }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Order $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Order $order)
     {
-        //
+        try {
+            $order->delete();
+            return response()->json('ok');
+        } catch (Exception $e) {
+            return response()->json('error', 400);
+        }
     }
 }

@@ -13,6 +13,9 @@
 
 @section('content')
 <div class="table-responsive">
+
+    @include('includes.messages')
+
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -56,7 +59,7 @@
                 </td>
                 <td>
                     <a href="{{ route ('admin.news.edit', ['news' => $news])}}">Ред.</a>
-                    <a href="">Удал.</a>
+                    <a href="javascript:;" class="delete" rel="{{ $news->id }}" url="/admin/news/">Удал.</a>
                 </td>
             </tr>
             @endforeach
@@ -66,3 +69,4 @@
     {{ $newsList->links()}}
 </div>
 @endsection
+
