@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -9,18 +10,22 @@ class CategoryController extends Controller
     //
     public function index()
     {
-        $categoryList = $this->getCategoryNews();
-        return view('news.categories', [
-            'categoryList' => $categoryList,
-        ]);
+        $categories = Category::select(Category::$availableFields)->get();
+        // dd($categories);
+
+        return view('news.categories',  ["categoryList" => $categories]);
     }
 
 
-    public function show(int $id)
+    public function show(Category $category)
     {
-        $category = $this->getCategoryNews($id);
-        return view('news.show_category', [
+        //$category = Category::getCategoriesById($category);
+        // dd($category);
+        $categoriesNews = $category->newsInCategory;
+
+        return view('news.show_category',  [
             'category' => $category,
+            'categoriesNews' => $categoriesNews,
         ]);
     }
 }
