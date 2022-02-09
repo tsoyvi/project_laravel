@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('title')
-    @parent - {{$news['title']}}
+    @parent - {{$news->title}}
 @endsection
 
 @section('header')
@@ -15,19 +15,20 @@
 <div class="container">
     <div>
         <h4>
-            {{ $news['title'] }}
+            {{ $news->title}}
         </h4>
-        <img class="" width="255" height="225" src="https://picsum.photos/225/225?random={{$news['id']}}">
+        <img class="" width="255" height="225" src="https://picsum.photos/225/225?random={{$news->id}}">
         <p>
-            {{$news['description']}}
+            {{$news->description}}
         </p>
         <p>автор
-            {{$news['author']}} добавлено:
-            {{$news['created_at']}}
+            {{$news->author}} добавлено:
+            {{$news->created_at}}
         </p>
     </div>
     <hr>
-    <a class="btn btn-sm btn-outline-secondary" href="{{route('category.show', ['id' => $idCategory ])}}">Список
+
+    <a class="btn btn-sm btn-outline-secondary" href="{{route('category.show', ['category' => $category->id ])}}">Список
         новостей в категории</a>
     <a class="btn btn-sm btn-outline-secondary" href="{{route('category.index')}}">Список категорий</a>
     <a class="btn btn-sm btn-outline-secondary" href="{{route('/')}}">На главную</a>

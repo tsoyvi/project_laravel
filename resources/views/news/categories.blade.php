@@ -20,10 +20,10 @@
             <div class="card mb-4 shadow-sm">
 
                 <img class="bd-placeholder-img card-img-top" width="100%" height="225"
-                    src="https://picsum.photos/225/225?random={{$loop->index}}">
+                    src="https://picsum.photos/225/225?random={{ $loop->index }}">
                 <div class="card-body">
                     <strong>
-                        <a href="{{ route('category.show', ['id' => $categories['id']]) }}">
+                        <a href="{{ route('category.show', ['category' => $categories['id']]) }}">
                             {{ $categories['title'] }}
                         </a>
                     </strong>
@@ -33,7 +33,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
                             <a class="btn btn-sm btn-outline-secondary"
-                                href="{{ route('category.show', ['id' => $categories['id']]) }}">
+                                href="{{ route('category.show', ['category' => $categories['id']]) }}">
                                 Далее..
                             </a>
                             <!--<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>-->
