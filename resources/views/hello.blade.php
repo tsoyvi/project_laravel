@@ -32,6 +32,8 @@
     <br>
     <div>
         <a class="btn btn-sm btn-outline-secondary" href="{{route('category.index')}}">Список категорий новостей</a>
+        <a class="btn btn-sm btn-outline-secondary" href="{{route('forms.feedback.index')}}">Оставить отзыв</a>
+        <a class="btn btn-sm btn-outline-secondary" href="{{route('forms.order.index')}}">Оставить заказ на получение выгрузки данных</a>
     </div>
 
 </div>
