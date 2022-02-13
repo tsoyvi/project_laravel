@@ -12,6 +12,13 @@
 
 @include('includes.messages')
 
+@php
+
+ //dd ($addNews);  
+
+@endphp
+
+    
 <form action="{{route('admin.news.store')}}" method="post">
     @csrf
 
@@ -27,7 +34,7 @@
 
     <div class="form-group">
         <label for="title">Наименование</label>
-        <input type="text" class="form-control" name="title" id="title" value="{{@old('title')}}">
+        <input type="text" class="form-control" name="title" id="title" value="{{@old('title', $addNews['title'])}}">
         @error('title') <strong style="color:red;"> {{$message}} </strong> @enderror
     </div>
     <div class="form-group">
@@ -46,7 +53,7 @@
     </div>
     <div class="form-group">
         <label>Описание</label>
-        <textarea name="description" class="form-control">{{@old('description')}}</textarea>
+        <textarea name="description" class="form-control">{{@old('description', $addNews['description'])}}</textarea>
 
     </div>
     <button type="submit" class="btn btn-success">Сохранить</button>

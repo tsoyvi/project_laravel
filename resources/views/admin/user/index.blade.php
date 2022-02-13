@@ -18,6 +18,10 @@
 
     <div class="table-responsive">
 
+        @php
+       // dd($users);
+        @endphp
+
         <table class="table table-bordered">
             <thead>
                 <tr>

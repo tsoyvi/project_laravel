@@ -14,12 +14,14 @@ class Category extends Model
         'id',
         'title',
         'description',
-        'created_at'
+        'category',
+
     ];
 
     protected $fillable = [
         'title',
         'description',
+
     ];
    
     public function newsInCategory()

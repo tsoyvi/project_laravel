@@ -8,6 +8,7 @@ use App\Http\Requests\News\UpdateRequest;
 use App\Models\Category;
 use App\Models\News;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class NewsController extends Controller
@@ -30,11 +31,16 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+
+        $addNews = $request->query('AddNews');
+ 
         $categories = Category::all();
+
         return view('admin.news.create', [
             'categories' => $categories,
+            'addNews' => $addNews,
         ]);
     }
 

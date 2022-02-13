@@ -14,5 +14,7 @@ class Order extends Model
         'phone',
         'email',
         'comment',
+        'category',
+        'url',
     ];
 }

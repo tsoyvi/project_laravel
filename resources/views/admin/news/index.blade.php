@@ -58,6 +58,10 @@
                     {{ $news->created_at}}
                 </td>
                 <td>
+                    @php
+                       // dd($news);
+                    @endphp
+
                     <a href="{{ route ('admin.news.edit', ['news' => $news])}}">Ред.</a>
                     <a href="javascript:;" class="delete" rel="{{ $news->id }}" url="/admin/news/">Удал.</a>
                 </td>

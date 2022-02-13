@@ -32,11 +32,17 @@
                     <p class="small text-muted mb-0">email: {{ $order['email'] }}</p>
                 </div>
                 <div class="d-flex flex-row align-items-center">
+                    <p class="small text-muted mb-0">Категория: {{ $order['category'] }}</p>
+                </div>
+                <div class="d-flex flex-row align-items-center">
+                    <p class="small text-muted mb-0">ссылка: {{ $order['url'] }}</p>
+                </div>
+                <div class="d-flex flex-row align-items-center">
                     <p class="small text-muted mb-0">{{ date_format($order['created_at'], 'd-M-Y H:i:s')}}</p>
                 </div>
                 <div class="d-flex flex-row align-items-center">
                     <a href="{{ route ('admin.order.edit', ['order' => $order]) }}">Ред.</a>&nbsp;
-                    <a href="javascript:;" class="delete" rel="{{ $order->id }}" url="/admin/orders/">Удал.</a>
+                    <a href="javascript:;" class="delete" rel="{{ $order->id }}" url="/admin/order/">Удал.</a>
                 </div>
             </div>
         </div>

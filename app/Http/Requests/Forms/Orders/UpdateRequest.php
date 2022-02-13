@@ -27,8 +27,10 @@ class UpdateRequest extends FormRequest
             'name' => ['required', 'string', 'min:1', 'max:50'],
             'phone' => ['required', 'string', 'min:6', 'max:20'],
             'email' => 'email:rfc,dns',
-            'comment' => ['required', 'string', 'min:1']
-        ];
+            'comment' => ['required', 'string', 'min:1'],
+            'category' => ['required', 'string', 'min:1'],
+            'url' => ['required', 'string', 'min:3'],
+          ];
     }
 
     public function messages()
@@ -45,6 +47,8 @@ class UpdateRequest extends FormRequest
             'phone' => 'Телефон',
             'email' => 'email',
             'comment' => 'Комментарий',
+            'category' => 'КатегорияК',
+            'url' => 'ссылка',
         ];
     }
 }

@@ -6,6 +6,19 @@
                     <h4 class="text-white">О сайте</h4>
                     <p class="text-muted">
                         Добро пожаловать на сайт
+
+                        @if (Auth::check())
+                        {{ Auth::user()->name }}
+                        <br>
+                            @if(Auth::user()->is_admin)
+                                <a href="{{ route('admin.index') }}"> Администрирование</a>
+                            <br>
+                            @endif
+                        @else
+                            <br>
+                            <a href="{{ route('login') }}">Войти</a>  
+                        @endif
+
                     </p>
                 </div>
                 <div class="col-sm-4 offset-md-1 py-4">

@@ -32,6 +32,18 @@
             <input type="email" class="form-control" name="email" id="email" value="{{ $order->email }}">
             @error('email') <strong style="color:red;"> {{$message}} </strong> @enderror
         </div>
+
+        <div class="form-group">
+            <label for="category">Категория</label>
+            <input type="category" class="form-control" name="category" id="category" value="{{ $order->category }}">
+            @error('category') <strong style="color:red;"> {{$message}} </strong> @enderror
+        </div>
+        <div class="form-group">
+            <label for="url">ссылка</label>
+            <input type="url" class="form-control" name="url" id="url" value="{{ $order->url }}">
+            @error('url') <strong style="color:red;"> {{$message}} </strong> @enderror
+        </div>
+
         <div class="form-group">
             <label>Информация о том, что нужно получить</label>
             <textarea name="comment" class="form-control">{{ $order->comment }}</textarea>
