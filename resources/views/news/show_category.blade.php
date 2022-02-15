@@ -19,8 +19,13 @@
         <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
 
+                @if($news->image)
+                <img class="" width="255" height="225" src="{{ Storage::disk('public')->url($news->image) }}">
+                @else
                 <img class="bd-placeholder-img card-img-top" width="100%" height="225"
                     src="https://picsum.photos/225/225?random={{$loop->index}}">
+                @endif
+
                 <div class="card-body">
                     <strong>
 

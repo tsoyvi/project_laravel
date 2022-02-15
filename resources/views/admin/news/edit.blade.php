@@ -12,7 +12,9 @@
 
 @include('includes.messages')
 
-<form action="{{ route('admin.news.update',  ['news' => $news] ) }}" method="post">
+<form action="{{ route('admin.news.update',  ['news' => $news] ) }}" 
+    method="post" enctype="multipart/form-data">
+    
     @csrf
     @method('put')
     <div class="form-group">
@@ -33,10 +35,16 @@
         @error('title') <strong style="color:red;"> {{$message}} </strong> @enderror
     </div>
     <div class="form-group">
-        <label for="author">Автор </label>
+        <label for="author">Автор</label>
         <input type="text" class="form-control" name="author" id="author" value="{{$news->author}}">
         @error('author') <strong style="color:red;"> {{$message}} </strong> @enderror
     </div>
+
+    <div class="form-group">
+        <label for="image">Загрузить изображение</label>
+        <input type="file" class="form-control" name="image" id="image">
+    </div>
+
     <div class="form-group">
         <label for="status">Статус</label>
         <select class="form-control" name="status" id="status">

@@ -7,6 +7,7 @@ use App\Http\Requests\News\CreateRequest;
 use App\Http\Requests\News\UpdateRequest;
 use App\Models\Category;
 use App\Models\News;
+use App\Services\UploadService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -35,7 +36,7 @@ class NewsController extends Controller
     {
 
         $addNews = $request->query('AddNews');
- 
+
         $categories = Category::all();
 
         return view('admin.news.create', [
@@ -52,11 +53,8 @@ class NewsController extends Controller
      */
     public function store(CreateRequest $request)
     {
-        $data = $request->validated() + [
-            'slug' => Str::slug($request->input('title'))
-        ];
 
-        $created = News::create($data);
+        $created = News::create($request->validated());
 
         if ($created) {
             return redirect()->route('admin.news.index')
@@ -105,11 +103,16 @@ class NewsController extends Controller
     public function update(UpdateRequest $request, News $news)
     {
 
-        $data = $request->validated() + [
-            'slug' => Str::slug($request->input('title'))
-        ];
+        $validated = $request->validated();
+        if ($request->hasFile('image')) {
+            $validated['image'] = app(UploadService::class)
+                ->saveFile(
+                    $request->file('image')
+                );
+        }
 
-        $updated = $news->fill($data)->save();
+
+        $updated = $news->fill($validated)->save();
 
         if ($updated) {
             return redirect()->route('admin.news.index')
