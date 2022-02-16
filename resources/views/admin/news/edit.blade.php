@@ -8,6 +8,7 @@
 </div>
 @endsection
 
+
 @section('content')
 
 @include('includes.messages')
@@ -56,9 +57,24 @@
     </div>
     <div class="form-group">
         <label>Описание</label>
-        <textarea name="description" class="form-control">{{$news->description}}</textarea>
+        <textarea name="description" id="description" class="form-control">{{$news->description}}</textarea>
         @error('description') <strong style="color:red;" {{$message}}</strong> @enderror
     </div>
+
+
     <button type="submit" class="btn btn-success">Сохранить</button>
 </form>
 @endsection
+
+
+<script>
+    window.onload = function() {
+    
+      ClassicEditor
+            .create( document.querySelector( '#description' ) )
+            .catch( error => {
+                console.error( error );
+     } );
+
+  };
+</script>

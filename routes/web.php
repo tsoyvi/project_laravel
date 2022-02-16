@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\FeedbackController as AdminFeedbackController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ParserController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\ResourceController as AdminResourceController;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HelloController;
@@ -70,10 +71,18 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/parser', ParserController::class)
             ->name('parser');
 
+        Route::get('/load', [ParserController::class, 'load'])
+            ->name('load');
+
+        Route::get('/loadAll', [ParserController::class, 'loadAll'])
+            ->name('loadAll');
+
+
         Route::resource('/categories', AdminCategoryController::class);
         Route::resource('/news', AdminNewsController::class);
         Route::resource('/feedback', AdminFeedbackController::class);
         Route::resource('/order', AdminOrderController::class);
+        Route::resource('/resource', AdminResourceController::class);
         Route::resource('/user', AdminUserController::class);
     });
 });

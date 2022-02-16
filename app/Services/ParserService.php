@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\Parser;
+use App\Models\News;
 use Laravie\Parser\Document;
 
 
@@ -50,6 +51,61 @@ class ParserService implements Parser
         $explode = explode('/', $this->link);
 
         $parseLink = end($explode);
-        \Storage::append('parsing/' . $parseLink , $encode);
+        \Storage::append('parsing/' . $parseLink, $encode);
+    }
+
+
+    public function parseResource(): array
+    {
+        return $this->document->parse([
+            'title' => [
+                'uses' => 'channel.title'
+            ],
+            'link' => [
+                'uses' => 'channel.link'
+            ],
+            'description' => [
+                'uses' => 'channel.description'
+            ],
+            'image' => [
+                'uses' => 'channel.image.url'
+            ],
+            'news' => [
+                'uses' => 'channel.item[title,link,guid,description,pubDate]'
+            ],
+        ]);
+    }
+
+    public function parseResourceToBD()
+    {
+
+        $data =  $this->document->parse([
+            'title' => [
+                'uses' => 'channel.title'
+            ],
+            'link' => [
+                'uses' => 'channel.link'
+            ],
+            'description' => [
+                'uses' => 'channel.description'
+            ],
+            'image' => [
+                'uses' => 'channel.image.url'
+            ],
+            'news' => [
+                'uses' => 'channel.item[title,link,guid,description,pubDate]'
+            ],
+        ]);
+
+
+        foreach ($data['news'] as $news) {
+
+            $created = News::create([
+                'title' => $news['title'],
+                'author' => $data['title'],
+                'description' => $news['description'],
+            ]);
+        }
+
     }
 }

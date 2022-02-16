@@ -28,7 +28,7 @@
         <img class="" width="255" height="225" src="https://picsum.photos/225/225?random={{$news->id}}">
         @endif
         <p>
-            {{$news->description}}
+            {!! $news->description !!}
         </p>
         <p>автор
             {{$news->author}} добавлено:

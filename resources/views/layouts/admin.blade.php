@@ -54,8 +54,17 @@
     </div>
 
 
+    
+    <script src="{{ asset('js/ckeditor5-build-classic/ckeditor.js') }}"></script>
+
     <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ asset('js/del_record.js') }}"></script>
+
+
+
+    <script>
+     
+    </script>
 
 </body>
 

@@ -14,11 +14,11 @@
 
 @php
 
- //dd ($addNews);  
+//dd ($addNews);
 
 @endphp
 
-    
+
 <form action="{{route('admin.news.store')}}" method="post">
     @csrf
 
@@ -53,9 +53,24 @@
     </div>
     <div class="form-group">
         <label>Описание</label>
-        <textarea name="description" class="form-control">{{@old('description', $addNews['description'])}}</textarea>
+        <textarea name="description" id="description"
+            class="form-control">{{@old('description', $addNews['description'])}}</textarea>
 
     </div>
     <button type="submit" class="btn btn-success">Сохранить</button>
 </form>
 @endsection
+
+
+
+<script>
+    window.onload = function() {
+    
+      ClassicEditor
+            .create( document.querySelector( '#description' ) )
+            .catch( error => {
+                console.error( error );
+     } );
+
+  };
+</script>

@@ -4,7 +4,7 @@
 <h1 class="h2">Список сторонних новостей</h1>
 <div class="btn-toolbar mb-2 mb-md-0">
     <div class="btn-group mr-2">
-        <a href="{{route('admin.order.create')}}" class="btn btn-sm btn-outline-secondary">
+        <a href="{{route('admin.resource.create')}}" class="btn btn-sm btn-outline-secondary">
             Добавить заказ
         </a>
     </div>
@@ -19,13 +19,13 @@
 
     <div class="card mb-4">
 
-        <form action="{{ route('admin.parser',  ['orders' => $orders] ) }}" method="get">
+        <form action="{{ route('admin.load',  ['resources' => $resources] ) }}" method="get">
             <div class="form-group">
-                <label for="orderUrl">Выберите категорию</label>
-                <select class="form-control" name="orderUrl" id="orderUrl">
-                    @foreach ($orders as $order)
-                    <option value="{{ $order->url }}">
-                        {{ $order->category }}
+                <label for="resourceUrl">Выберите название</label>
+                <select class="form-control" name="resourceUrl" id="resourceUrl">
+                    @foreach ($resources as $resource)
+                    <option value="{{ $resource->url }}">
+                        {{ $resource->name }}
                     </option>
                     @endforeach
                 </select>
@@ -34,7 +34,7 @@
         </form>
 
         <div class="card-body">
-            <table class="table table-bordered">
+            <table class="table table-bresourceed">
                 <thead>
                     <tr>
                         <th>Заголовок</th>

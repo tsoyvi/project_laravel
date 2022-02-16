@@ -22,7 +22,7 @@
     </div>
     <div class="form-group">
         <label>Описание</label>
-        <textarea name="description" class="form-control">{{$category->description}}</textarea>
+        <textarea name="description" id="description" class="form-control">{{$category->description}}</textarea>
 
     </div>
     <button type="submit" class="btn btn-success">Сохранить</button>
@@ -79,3 +79,16 @@
 
 
 @endsection
+
+
+<script>
+    window.onload = function() {
+    
+      ClassicEditor
+            .create( document.querySelector( '#description' ) )
+            .catch( error => {
+                console.error( error );
+     } );
+
+  };
+</script>

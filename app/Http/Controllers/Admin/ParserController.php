@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Contracts\Parser;
 use App\Http\Controllers\Controller;
 use App\Jobs\NewsParsingJob;
-use App\Models\Order;
+use App\Jobs\AddDBNewsParsingJob;
+use App\Models\News;
+use App\Models\Resource;
 use Illuminate\Http\Request;
 
 
@@ -41,23 +43,7 @@ class ParserController extends Controller
             'https://news.yandex.ru/nhl.rss',
         ];
 
-        /*
-        $orders = Order::select('url', 'category')->get();
-        $url = $request->query('orderUrl');
-        if (!is_null($url)) {
-            // dd($url);
-            $news = $service->setLink($url)
-                ->parse();
-        } else {
-            $news = [];
-        }
-        
-        
-        return view('admin.parser.index', [
-            'newsList' => $news,
-            'orders' => $orders,
-        ]);
-        */
+
 
         foreach ($urls as $url) {
             dispatch(new NewsParsingJob($url));
@@ -65,4 +51,41 @@ class ParserController extends Controller
 
         echo "Парсинг завершен";
     }
+
+    public function load(Request $request, Parser $service)
+    {
+
+        $resources = Resource::select('name', 'url')->get();
+        $url = $request->query('resourceUrl');
+
+        if (!is_null($url)) {
+             // dd($url);
+            $news = $service->setLink($url)
+                ->parseResource();
+        } else {
+            $news = [];
+        }
+
+
+        return view('admin.parser.index', [
+            'newsList' => $news,
+            'resources' => $resources,
+        ]);
+    }
+
+   public function loadAll(Request $request, Parser $service)
+    { 
+
+        $resources = Resource::select('name', 'url')->get();
+
+        foreach ($resources as $resource) {
+            
+            dispatch(new AddDBNewsParsingJob ($resource->url));
+                       
+        }
+        
+         return  redirect()->route('admin.news.index');
+    }
+
+    
 }
